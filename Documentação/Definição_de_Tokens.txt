@@ -1,0 +1,18 @@
+PALAVRAS RESERVADAS:
+atom,
+car, case, cdr, cond,
+define, defun,
+if,
+lambda, let, list,
+nil,
+T. 
+
+OPERADORES: 
+    aritméticos:
+        +, *, -, /.
+    
+    lógicos:
+        <, >, =, eq, geq, leq, neq.
+
+IDENTIFICADORES:
+(a...z)( (a...z) | (0...9) | _ )*

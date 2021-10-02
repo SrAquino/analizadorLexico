@@ -1,0 +1,17 @@
+Neste trabalho, a implementação deverá ser diretamente feita com o autômato. 
+A definição do autômato deverá ser feita de modo a reconhecer e transformar em token os elementos de um subconjunto restrito da linguagem de programação Scheme, que é um dialeto da linguagem LISP.
+O autômato construído deve ler caracter a caracter do arquivo passado como parâmetro do programa e construir uma lista de tokens, onde cada token será identificado como um elemento específico do programa.
+
+Os únicos delimitadores em Scheme são os parênteses '(' e ')'
+
+PALAVRAS RESERVADAS: Serão usadas neste trabalho:
+defun, define, let, lambda, car, cdr, list, atom, cond, case, if, T, nil.
+
+OPERADORES: (aritméticos e lógicos):
++, *, -, /, <, leq, >, geq, neq, eq, =.
+
+IDENTIFICADORES: devem começar com uma letra, os restantes símbolos
+podem ser letras, dígitos ou _.
+
+Os tokens lidos devem ser agrupados usando alguma estrutura de dados pertinente.
+
