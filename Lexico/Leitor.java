@@ -88,9 +88,6 @@ public class Leitor{
                     t.setTexto(term);
                     term = "";
                 return t;
-            
-                default:    
-                break;
 
                 case '3':
                     if(isdigito(charAtual)){

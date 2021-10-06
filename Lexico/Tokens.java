@@ -25,7 +25,7 @@ public class Tokens {
         switch(this.getTipo()){
             case 0:return "Identificador";
 
-            case 1:return "Number";
+            case 1:return "Número";
 
             case 2:return "Operador Aritimético";
             

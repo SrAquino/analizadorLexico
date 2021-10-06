@@ -1,14 +1,18 @@
 GRAMATICA G
 
-G = (Vn, Vt, P, S)
+G = (Sn, St, P, S)
+(Simbolos NÃO terminais, Simbolos terminais, )
 
-Vn = E, T, OP
-Vt = id, num, +, -, *, /
+Sn = F, N, OP
+(Métodos da classe de Analise sintática)
 
-1. E -> (E OP T) | T
-2. T -> id | num
+St = id, num, +, -, *, /
+(Tokens retornados pela classe de Analise léxica)
+
+1. F -> (F OP N) | N
+2. N -> id | num
 3. OP -> + | - | * | /
 
-1a. E -> T E'
-1b. E' -> OP T E' | &
+1a. F -> T F'
+1b. F' -> OP T F' | &
  
