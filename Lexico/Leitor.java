@@ -66,6 +66,10 @@ public class Leitor{
                             estado = '7';
                             term += charAtual;
                         }
+                    } else if(isdelimiter(charAtual)){
+                        estado = '9';
+                        term += charAtual;
+
                     } else if (ispecial(charAtual)){
                         estado = 'i';
                     } else {
@@ -135,6 +139,12 @@ public class Leitor{
                     term = "";
                 return t;
 
+                case '9':
+                    t = new Tokens();
+                    t.setTipo(Tokens.TK_Delimit);
+                    t.setTexto(term);
+                    term = "";
+                return t;
             }
 
         }
@@ -146,11 +156,15 @@ public class Leitor{
     }
 
     private boolean iscaracter(char c){
-        return (c >= 'a' && c <= 'z');
+        return ((c >= 'a' && c <= 'z')|| c == 'T');
     }
 
     private boolean isop(char c) {
         return (c == '+' || c == '*' || c == '-' || c == '/' || c == '>' || c == '<' || c == '='); 
+    }
+
+    private boolean isdelimiter(char c){
+        return (c == '(' || c == ')');
     }
         
     private boolean ispecial(char c) {
@@ -193,7 +207,6 @@ public class Leitor{
                     return true;
 
                 } else if (charAtual == 's'){
-                    term += charAtual;
                     if (proxreserved('e')){
                         estado = '8';//case
                         return true;
@@ -202,15 +215,13 @@ public class Leitor{
                 } else {return false;}
 
             } else if (charAtual == 'd'){
-                term += charAtual;
                 if(proxreserved('r')){
                     estado = '8';//cdr
                     return true;
 
                 } else {return false;}
 
-            } else if (charAtual == 'o'){     
-                term += charAtual;           
+            } else if (charAtual == 'o'){               
                 if(proxreserved('n')){
                     if(proxreserved('d')){
                         estado = '8';//cond
@@ -234,8 +245,7 @@ public class Leitor{
                         } else {return false;}
 
                     } else if (charAtual == 'u'){
-                        term += charAtual;
-                        if (proxreserved('u')){
+                        if (proxreserved('n')){
                             estado = '8';//defun
                             return true;
 
@@ -286,22 +296,20 @@ public class Leitor{
                 } else {return false;}
 
             } else if (charAtual == 'e'){
-                term += charAtual;
                 if(proxreserved('t')){
                     estado = '8';//let
                     return true;
 
-                } else if (proxreserved('q')){
+                } else if (charAtual == 'q'){
                     estado = '6';//leq
                     return true;
 
                 } else {return false;}
 
             } else if (charAtual == 'i'){
-                term += charAtual;
                 if(proxreserved('s')){
                     if(proxreserved('t')){
-                        estado = '6';//list
+                        estado = '8';//list
                         return true;
 
                     } else {return false;}

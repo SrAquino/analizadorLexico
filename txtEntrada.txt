@@ -1,0 +1,12 @@
+aX2 + 111
+
+()atom
+car()) )case cdr cond
+define defun
+if
+lambda let list
+nil
+neq
+T 
+
+< > = eq geq leq  

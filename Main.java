@@ -8,7 +8,7 @@ public class Main{
     public static void main(String[] args) {
         try{
 
-        Leitor l = new Leitor("../Lexico/txtEntrada.txt");
+        Leitor l = new Leitor("../txtEntrada.txt");
         LinkedList<Tokens> tokenList = new LinkedList<Tokens>();
         
         Tokens TK = null;
@@ -21,7 +21,7 @@ public class Main{
             }
         }while(TK != null);
 
-        l = new Leitor("../Lexico/txtEntrada.txt");
+        l = new Leitor("../txtEntrada.txt");
         Analisador a = new Analisador(tokenList);
         a.F();
 
@@ -31,8 +31,8 @@ public class Main{
         System.out.println("ERRO LEXICO: "+e.getMessage());
     } catch (SintaticException e){
         System.out.println("ERRO SINTÁTICO: "+e.getMessage());
-    } catch (Exception e){
+    } /*catch (Exception e){
         System.out.println("ERRO! nenhuma solução encontrada");
-    }
+    } */
 }
 }

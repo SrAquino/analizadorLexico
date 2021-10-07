@@ -21,11 +21,12 @@ public class Analisador{
     }
 
     public void N(){
-        tk = this.l.get(currentToken);
         
         if(tk == null){
             System.out.println("Arquivo vazio");
         }
+
+        tk = this.l.get(currentToken);
 
         if(tk.getTipo() != Tokens.TK_Id && tk.getTipo() != Tokens.TK_Number){
             throw new SintaticException("Esperava um Identificador ou Número e encontrei um "+tk.getType());

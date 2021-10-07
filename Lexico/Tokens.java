@@ -7,6 +7,7 @@ public class Tokens {
     public static final int TK_Op_Rel = 3;
     public static final int TK_Atri = 4;
     public static final int TK_WR = 5;
+    public static final int TK_Delimit = 6;
 
     private int tipo;
     private String texto;
@@ -35,6 +36,8 @@ public class Tokens {
             case 4:return "Atribuição";
 
             case 5:return "Palavra Reservada";
+
+            case 6: return "Delimitador";
 
             default: return "ERROR";
         }
