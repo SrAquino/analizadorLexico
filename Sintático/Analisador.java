@@ -11,7 +11,7 @@ public class Analisador{
     private int currentToken;
     
     public Analisador(LinkedList<Tokens> l){
-        this.l = new LinkdList<Tokens>(l);
+        //this.l = new LinkdList<Tokens>(l);
         this.currentToken = 0;
     }
 

@@ -15,3 +15,6 @@ podem ser letras, dígitos ou _.
 
 Os tokens lidos devem ser agrupados usando alguma estrutura de dados pertinente.
 
+[!] COMANDOS = = = = = = = 
+Utilize " javac *.java -d Compiled " { para compilar o programa }
+" java Main " {Dentro da pasta /Compiled = para rodar o programa } 

@@ -3,7 +3,7 @@ package Lexico;
 import java.nio.charset.*;
 import java.nio.file.*;
 import Exceptions.LexicalException;
-import java.util.LinkedList;
+//import java.util.LinkedList;
 
 
 public class Leitor{
@@ -46,56 +46,12 @@ public class Leitor{
             switch (estado) {
                 case 'i':    
                     if(iscaracter(charAtual)){
-                        if(charAtual=='a'){ //|| charAtual=='c' ||charAtual=='d' ||charAtual=='e' ||charAtual=='g' ||charAtual=='i' ||charAtual=='l' ||charAtual=='n' ||charAtual=='t'){
-                            term += charAtual;
-                            charAtual = prox();
-                            if (charAtual=='t'){
-                                term += charAtual;
-                                charAtual = prox();
-                                if (charAtual=='o'){
-                                    term += charAtual;
-                                    charAtual = prox();
-                                    if (charAtual=='m'){
-                                        estado = 'a';
-                                        term += charAtual;
-                                        charAtual = prox();
-                                    } else {
-                                        estado = '1';
-                                        term += charAtual;
-                                    }
-                                } else {
-                                    estado = '1';
-                                    term += charAtual;
-                                }
-                            } else {
-                                estado = '1';
-                                term += charAtual;
-                            }
+                        if(isreservada()){
+
                         } else {
                             estado = '1';
                             term += charAtual;
-                        }
-                        if(charAtual=='c'){
-                            term += charAtual;
-                            charAtual = prox();
-                            if(charAtual=='a'){
-                                term += charAtual;
-                                charAtual = prox();
-                                if(charAtual=='r'){
-                                    estado = 'c';
-                                    term += charAtual;
-                                } else {
-                                    estado = '1';
-                                    term += charAtual;
-                                }
-                            } else {
-                                estado = '1';
-                                term += charAtual;
-                            }   
-                        } else {
-                            estado = '1';
-                            term += charAtual;
-                        }
+                        }     
                     } else if(isdigito(charAtual)){
                         estado = '3';
                         term += charAtual;
@@ -172,19 +128,13 @@ public class Leitor{
                     term = "";
                 return t;
 
-                case 'a':
+                case '8':
                     t = new Tokens();
                     t.setTipo(Tokens.TK_WR);
                     t.setTexto(term);
                     term = "";
                 return t;
 
-                case 'c':
-                    t = new Tokens();
-                    t.setTipo(Tokens.TK_WR);
-                    t.setTexto(term);
-                    term = "";
-                return t;
             }
 
         }
@@ -224,45 +174,172 @@ public class Leitor{
         //eq, geq, leq, neq
 
         if (charAtual == 'a'){
-            charAtual = prox();
-            if(charAtual == 't'){
-                charAtual = prox();
-                if(charAtual == 'o'){
-                    charAtual = prox();
-                    if(charAtual == 'm'){
-                        charAtual = prox();
+            term += charAtual;
+            if(proxreserved('t')){
+                if(proxreserved('o')){
+                    if(proxreserved('m')){
+                        estado = '8';//atom
+                        return true;
 
-                    }
-                } else {notReservada(charAtual);}
+                    } else {return false;}
+                } else {return false;}
+            } else {return false;}
 
-            } else {notReservada(charAtual);}
         } else if (charAtual == 'c'){
+            term += charAtual;
+            if (proxreserved('a')){
+                if (proxreserved('r')){
+                    estado = '8';//car
+                    return true;
+
+                } else if (charAtual == 's'){
+                    term += charAtual;
+                    if (proxreserved('e')){
+                        estado = '8';//case
+                        return true;
+
+                    } else {return false;}
+                } else {return false;}
+
+            } else if (charAtual == 'd'){
+                term += charAtual;
+                if(proxreserved('r')){
+                    estado = '8';//cdr
+                    return true;
+
+                } else {return false;}
+
+            } else if (charAtual == 'o'){     
+                term += charAtual;           
+                if(proxreserved('n')){
+                    if(proxreserved('d')){
+                        estado = '8';//cond
+                        return true;
+
+                        } else {return false;}
+                    }else {return false;}
+            } else {return false;}
 
         } else if (charAtual == 'd'){
+            term += charAtual;
+            if(proxreserved('e')){ 
+                if(proxreserved('f')){
+                    if(proxreserved('i')){   
+                        if(proxreserved('n')){       
+                            if(proxreserved('e')){
+                                estado = '8';//define
+                                return true;
+
+                            } else {return false;}
+                        } else {return false;}
+
+                    } else if (charAtual == 'u'){
+                        term += charAtual;
+                        if (proxreserved('u')){
+                            estado = '8';//defun
+                            return true;
+
+                        } else {return false;}
+                    } else {return false;}
+                } else {return false;}
+            } else {return false;}
 
         } else if (charAtual == 'e'){
+            term += charAtual;
+            if(proxreserved('q')){
+                estado = '6';//eq
+                return true;
+
+            } else {return false;}
 
         } else if (charAtual == 'g'){
+            term += charAtual;
+            if(proxreserved('e')){
+                if(proxreserved('q')){
+                    estado = '6';//geq
+                    return true;
+
+                } else {return false;}
+            } else {return false;}
 
         } else if (charAtual == 'i'){
+            term += charAtual;
+            if(proxreserved('f')){
+                estado = '8';//if
+                return true;
+
+            } else {return false;}
 
         } else if (charAtual == 'l'){
+            term += charAtual;
+            if(proxreserved('a')){
+                if(proxreserved('m')){
+                    if(proxreserved('b')){
+                        if(proxreserved('d')){
+                            if(proxreserved('a')){
+                                estado = '8';//lambda
+                                return true;
+
+                            } else {return false;}
+                        } else {return false;}
+                    } else {return false;}
+                } else {return false;}
+
+            } else if (charAtual == 'e'){
+                term += charAtual;
+                if(proxreserved('t')){
+                    estado = '8';//let
+                    return true;
+
+                } else if (proxreserved('q')){
+                    estado = '6';//leq
+                    return true;
+
+                } else {return false;}
+
+            } else if (charAtual == 'i'){
+                term += charAtual;
+                if(proxreserved('s')){
+                    if(proxreserved('t')){
+                        estado = '6';//list
+                        return true;
+
+                    } else {return false;}
+                } else {return false;}
+            } else {return false;}
+
 
         } else if (charAtual == 'n'){
+            term += charAtual;
+            if(proxreserved('e')){
+                if(proxreserved('q')){
+                    estado = '6';//neq
+                    return true;
 
-        } else if (charAtual == 't'){
+                } else {return false;}
 
+            } else if (charAtual == 'i'){
+                term += charAtual;
+                if(proxreserved('l')){
+                    estado = '8';//nil
+                    return true;
+
+                } else {return false;}
+            } else {return false;}
+
+        } else if (charAtual == 'T'){
+            term += charAtual;
+            estado = '8';//T
+            return true;
         }
-        
-        return true;
+
+        return false;
     }
 
-    private void notReservada(char c){
-        if(iscaracter(charAtual) ||isdigito(charAtual)) {
-            estado = '1';
-        } else {
-            estado = '2';
-        }
+    private boolean proxreserved(char c){
+        charAtual = prox();
+        term += charAtual;
+        return charAtual == c;
     }
 
 }

@@ -8,7 +8,7 @@ public class Main{
     public static void main(String[] args) {
         try{
 
-        Leitor l = new Leitor("Lexico/txtEntrada.txt");
+        Leitor l = new Leitor("../Lexico/txtEntrada.txt");
         LinkedList<Tokens> tokenList = new LinkedList<Tokens>();
         
         Tokens TK = null;
@@ -21,7 +21,7 @@ public class Main{
             }
         }while(TK != null);
 
-        l = new Leitor("Lexico/txtEntrada.txt");
+        l = new Leitor("../Lexico/txtEntrada.txt");
         Analisador a = new Analisador(tokenList);
         a.F();
 
