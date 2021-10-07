@@ -9,12 +9,25 @@ Sn = F, N, OP
 St = id, num, +, -, *, /
 (Tokens retornados pela classe de Analise léxica)
 
-1. F -> (F OP N) | N
+0. G -> F | Pr
+
+1. F -> (OPa N F) | N
 2. N -> id | num
-3. OP -> + | - | * | /
+3. OPa -> + | - | * | / | &
 
-1a. F -> N F'
-1b. F' -> OP N F' | &
+4. Pr -> (r id (Pr)) | F
 
-2. D -> ( | ) 
+------------------------------------------------------------------------------------
+
+4. C -> C OPr N | N
+5. OPr -> > | < | eq | geq | leq | neq
+
+4a. C -> N C'
+4b. C' -> OPr N C' | &
+
+6. 
+
+
+
+
  

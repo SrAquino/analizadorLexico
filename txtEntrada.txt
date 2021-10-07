@@ -1,12 +1,21 @@
-aX2 + 111
+(defun add (parametro1 parametro2) (+ parametro1 parametro2))
+(defun sub (x y) (- x y))
+(defun mul (a b) (* a b))
+(defun div (f g) (/ f g))
 
-()atom
-car()) )case cdr cond
-define defun
-if
+(car x)
+(cdr y)
+
+(if (condicao) (retornoverdadeiro) (retornofalso))
+(eq lista nil)
+(leq menorigual vazio)
+(geq maiorigual 999)
+(neq diferente x)
+
+
+atom
+case cond
+define 
 lambda let list
-nil
-neq
 T 
-
-< > = eq geq leq  
+< > = 

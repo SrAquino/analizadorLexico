@@ -23,7 +23,7 @@ public class Main{
 
         l = new Leitor("../txtEntrada.txt");
         Analisador a = new Analisador(tokenList);
-        a.F();
+        a.G();
 
         System.out.println("Parabéns, Você não escreveu nada errado!");
 

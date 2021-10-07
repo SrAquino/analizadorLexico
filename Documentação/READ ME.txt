@@ -15,6 +15,33 @@ podem ser letras, dígitos ou _.
 
 Os tokens lidos devem ser agrupados usando alguma estrutura de dados pertinente.
 
-[!] COMANDOS = = = = = = = 
-Utilize " javac *.java -d Compiled " { para compilar o programa }
-" java Main " {Dentro da pasta /Compiled = para rodar o programa } 
+A segunda parte do trabalho consiste nos seguinte passos:
+
+1. Construir a gramática da linguagem Scheme, restrita aos operadores,
+funções e símbolos descritos acima.
+
+2. A partir da gramática, gerar o autômato de pilha que vai reconhecer a linguagem.
+
+3. Implementar e executar o autômato de pilha em programas exemplo.
+
+4. Construir a árvore sintática do programa, apresentado em formato legível.
+
+O trabalho deve ser entregue em um arquivo contendo os seguintes elementos:
+1. Um relatório contendo a explicação sobre o trabalho feito,
+as estruturas de dados utilizadas, os procedimentos de teste realizados e o
+referencial bibliográfico consultado.
+
+2. O código-fonte completo do programa.
+
+3. Os casos de teste executados.
+
+4. O cronograma do projeto, com todas as atividades e os responsáveis
+por sua execução.
+
+------------------------------------------------------------------------------
+A solução implementada é Top Down
+
+[!] COMANDOS:
+Utilize 
+- javac *.java -d Compiled { para compilar o programa }
+- java Main { Dentro da pasta /Compiled = para rodar o programa } 
