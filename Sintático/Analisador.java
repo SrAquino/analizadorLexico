@@ -3,12 +3,16 @@ package Sintático;
 import Exceptions.SintaticException;
 import Lexico.*;
 
+import java.util.LinkedList;
+
 public class Analisador{
-    private Leitor l;
+    private LinkedList<Tokens> l;
     private Tokens tk;
+    private int currentToken;
     
-    public Analisador(Leitor l){
-        this.l = l;
+    public Analisador(LinkedList<Tokens> l){
+        this.l = new LinkdList<Tokens>(l);
+        this.currentToken = 0;
     }
 
     public void F(){
@@ -17,7 +21,7 @@ public class Analisador{
     }
 
     public void N(){
-        tk = l.proxToken();
+        tk = this.l.get(currentToken);
         
         if(tk == null){
             System.out.println("Arquivo vazio");
@@ -26,6 +30,7 @@ public class Analisador{
         if(tk.getTipo() != Tokens.TK_Id && tk.getTipo() != Tokens.TK_Number){
             throw new SintaticException("Esperava um Identificador ou Número e encontrei um "+tk.getType());
         }
+        this.currentToken++;
     }
 
     public void OP(){
@@ -35,13 +40,14 @@ public class Analisador{
     }
 
     public void Fl(){
-        tk = l.proxToken();
+        tk = this.l.get(currentToken);
 
         if(tk != null){
             OP();
             N();
             Fl();
         }
+        this.currentToken++;
     }
 
 }
