@@ -3,6 +3,7 @@ package Lexico;
 import java.nio.charset.*;
 import java.nio.file.*;
 import Exceptions.LexicalException;
+import java.util.LinkedList;
 
 
 public class Leitor{
@@ -45,8 +46,52 @@ public class Leitor{
             switch (estado) {
                 case 'i':    
                     if(iscaracter(charAtual)){
-                        if(charAtual=='a' || charAtual=='c' ||charAtual=='d' ||charAtual=='e' ||charAtual=='g' ||charAtual=='i' ||charAtual=='l' ||charAtual=='n' ||charAtual=='t'){
-                            
+                        if(charAtual=='a'){ //|| charAtual=='c' ||charAtual=='d' ||charAtual=='e' ||charAtual=='g' ||charAtual=='i' ||charAtual=='l' ||charAtual=='n' ||charAtual=='t'){
+                            term += charAtual;
+                            charAtual = prox();
+                            if (charAtual=='t'){
+                                term += charAtual;
+                                charAtual = prox();
+                                if (charAtual=='o'){
+                                    term += charAtual;
+                                    charAtual = prox();
+                                    if (charAtual=='m'){
+                                        estado = 'a';
+                                        term += charAtual;
+                                        charAtual = prox();
+                                    } else {
+                                        estado = '1';
+                                        term += charAtual;
+                                    }
+                                } else {
+                                    estado = '1';
+                                    term += charAtual;
+                                }
+                            } else {
+                                estado = '1';
+                                term += charAtual;
+                            }
+                        } else {
+                            estado = '1';
+                            term += charAtual;
+                        }
+                        if(charAtual=='c'){
+                            term += charAtual;
+                            charAtual = prox();
+                            if(charAtual=='a'){
+                                term += charAtual;
+                                charAtual = prox();
+                                if(charAtual=='r'){
+                                    estado = 'c';
+                                    term += charAtual;
+                                } else {
+                                    estado = '1';
+                                    term += charAtual;
+                                }
+                            } else {
+                                estado = '1';
+                                term += charAtual;
+                            }   
                         } else {
                             estado = '1';
                             term += charAtual;
@@ -127,6 +172,19 @@ public class Leitor{
                     term = "";
                 return t;
 
+                case 'a':
+                    t = new Tokens();
+                    t.setTipo(Tokens.TK_WR);
+                    t.setTexto(term);
+                    term = "";
+                return t;
+
+                case 'c':
+                    t = new Tokens();
+                    t.setTipo(Tokens.TK_WR);
+                    t.setTexto(term);
+                    term = "";
+                return t;
             }
 
         }
@@ -159,6 +217,52 @@ public class Leitor{
 
     private void back() {
         position--;
+    }
+
+    private boolean isreservada(){
+        //atom, car, case, cdr, cond, define, defun, if, lambda, let, list, nil, T
+        //eq, geq, leq, neq
+
+        if (charAtual == 'a'){
+            charAtual = prox();
+            if(charAtual == 't'){
+                charAtual = prox();
+                if(charAtual == 'o'){
+                    charAtual = prox();
+                    if(charAtual == 'm'){
+                        charAtual = prox();
+
+                    }
+                } else {notReservada(charAtual);}
+
+            } else {notReservada(charAtual);}
+        } else if (charAtual == 'c'){
+
+        } else if (charAtual == 'd'){
+
+        } else if (charAtual == 'e'){
+
+        } else if (charAtual == 'g'){
+
+        } else if (charAtual == 'i'){
+
+        } else if (charAtual == 'l'){
+
+        } else if (charAtual == 'n'){
+
+        } else if (charAtual == 't'){
+
+        }
+        
+        return true;
+    }
+
+    private void notReservada(char c){
+        if(iscaracter(charAtual) ||isdigito(charAtual)) {
+            estado = '1';
+        } else {
+            estado = '2';
+        }
     }
 
 }

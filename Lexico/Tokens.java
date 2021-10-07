@@ -6,6 +6,7 @@ public class Tokens {
     public static final int TK_Op_Ari = 2;
     public static final int TK_Op_Rel = 3;
     public static final int TK_Atri = 4;
+    public static final int TK_WR = 5;
 
     private int tipo;
     private String texto;
@@ -32,6 +33,8 @@ public class Tokens {
             case 3:return "Operador Relacional";
 
             case 4:return "Atribuição";
+
+            case 5:return "Palavra Reservada";
 
             default: return "ERROR";
         }
