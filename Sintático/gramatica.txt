@@ -13,6 +13,6 @@ St = id, num, +, -, *, /
 2. N -> id | num
 3. OP -> + | - | * | /
 
-1a. F -> T F'
-1b. F' -> OP T F' | &
+1a. F -> N F'
+1b. F' -> OP N F' | &
  
