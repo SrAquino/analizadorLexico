@@ -21,6 +21,7 @@ public class Analisador{
 
         if(tk.getTipo()==Tokens.TK_Delimit){
             this.currentToken++;
+            tk = this.l.get(currentToken);
 
             if(tk.getTipo()==Tokens.TK_Op_Ari){
                 F();
@@ -50,19 +51,42 @@ public class Analisador{
 
     private void Pr(){
 
+       proximoToken();
+
         if(tk.getTipo()==Tokens.TK_WR){
-            this.currentToken++;
-            tk = this.l.get(currentToken);
-            
+
+            if (tk.getTexto().compareTo("defun") == 0){      
+                proximoToken();
             if(tk.getTipo()==Tokens.TK_Id){
+                proximoToken();
+                if(tk.getTipo()==Tokens.TK_Delimit){
+                    proximoToken();
+                if(tk.getTipo()==Tokens.TK_Id){
+                    proximoToken();
+                if(tk.getTipo()==Tokens.TK_Id){
+                    proximoToken();
+                if(tk.getTipo()==Tokens.TK_Delimit){
+                    proximoToken();
+                    if(tk.getTipo()==Tokens.TK_Delimit){
+                        F();
+                    if(tk.getTipo()==Tokens.TK_Delimit){
+
+                    }
+                }}}}}
+
+                } else {
+                    throw new SintaticException("E o nome da função é oq? Eu advinho ou deixo esse "+tk.getType());
+                }
+            } else
+
+            if(tk.getTipo()==Tokens.TK_Id){
+                this.currentToken++;
                 G();
             } else { 
-                throw new SintaticException("E o nome da função é oq? Eu advinho ou deixo esse "+tk.getType());
+                throw new SintaticException("");
             }
         }
     }
-
-    
 
     public void N(){
   
@@ -83,6 +107,11 @@ public class Analisador{
         }
 
         this.currentToken++;
+    }
+
+    private void proximoToken(){
+        this.currentToken++;
+        tk = this.l.get(currentToken);
     }
 
 }

@@ -10,6 +10,7 @@ import Exceptions.LexicalException;
 public class Leitor{
     private char[] texto;
     private char estado, charAtual;
+    private int strLen;
     private int position;
     private String term;
 
@@ -21,7 +22,8 @@ public class Leitor{
             term = "";
 
             conteudo_txt = new String(Files.readAllBytes(Paths.get(filename)),StandardCharsets.UTF_8);
-                texto = conteudo_txt.toCharArray();
+            this.strLen = conteudo_txt.length();
+            texto = conteudo_txt.toCharArray();
             System.out.println("----------------------");
             System.out.println(conteudo_txt);
             System.out.println("----------------------");
@@ -42,19 +44,18 @@ public class Leitor{
                 return null;
             }
 
-            charAtual = prox();
+            charAtual = this.prox();
+            //System.out.println(String.format("current char: %s | current index: %d | current char[index]: %s", this.charAtual, this.position, this.texto[this.position]));
             //System.out.println("Estado: "+estado);
             //System.out.println("Posição: "+position);
             switch (estado) {
                 case 'i':
-                //System.out.println("Char atual: "+charAtual);    
-                    if(iscaracter(charAtual)){
-                        if(isreservada()){
-
-                        } else {
-                            estado = '1';
-                            term += charAtual;
-                        }     
+                     
+                    if(isreservada()){
+                        
+                    } else if(iscaracter(charAtual)){
+                        estado = '1';
+                        term += charAtual;
                     } else if(isdigito(charAtual)){
                         estado = '3';
                         term += charAtual;
@@ -91,7 +92,6 @@ public class Leitor{
 
                 case '2':
                     back();
-                    System.out.println("2: "+charAtual);
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Id);
                     t.setTexto(term);
@@ -196,171 +196,203 @@ public class Leitor{
 
         if (charAtual == 'a'){
             
-            if(proxreserved('t')){
-                if(proxreserved('o')){
-                    if(proxreserved('m')){
+            if(proxreserved('t', 1)){
+                if(proxreserved('o', 2)){
+                    if(proxreserved('m', 3)){
                         estado = '8';//atom
+                        term="";
                         term += "atom";
+                        position += 3;
                         return true;
 
-                    } else {back(); return false;}
-                } else {back(); return false;}
-            } else {back(); return false;}
+                    } else {; return false;}
+                } else {; return false;}
+            } else {; return false;}
 
         } else if (charAtual == 'c'){
             
-            if (proxreserved('a')){
-                if (proxreserved('r')){
+            if (proxreserved('a', 1)){
+                if (proxreserved('r', 2)){
                     estado = '8';//car
+                    term="";
                     term += "car";
+                    position += 2;
                     return true;
 
-                } else if (charAtual == 's'){
-                    if (proxreserved('e')){
+                } else if (proxreserved('s', 2)){
+                    if (proxreserved('e', 3)){
                         estado = '8';//case
+                        term="";
                         term += "case";
+                        position += 3;
                         return true;
 
-                    } else {back(); return false;}
-                } else {back(); return false;}
+                    } else { return false;}
+                } else { return false;}
 
-            } else if (charAtual == 'd'){
-                if(proxreserved('r')){
+            } else if (proxreserved('d', 1)){
+                if(proxreserved('r', 2)){
                     estado = '8';//cdr
+                    term="";
                     term += "cdr";
+                    position += 2;
                     return true;
 
-                } else {back(); return false;}
+                } else { return false;}
 
-            } else if (charAtual == 'o'){               
-                if(proxreserved('n')){
-                    if(proxreserved('d')){
+            } else if (proxreserved('o', 1)){               
+                if(proxreserved('n',2 )){
+                    if(proxreserved('d', 3)){
                         estado = '8';//cond
+                        term="";
                         term += "cond";
+                        position += 3;
                         return true;
 
-                    } else {back(); return false;}
-                }else {back(); return false;}
-            } else {back(); return false;}
+                    } else { return false;}
+                }else { return false;}
+            } else { return false;}
 
         } else if (charAtual == 'd'){
-            
-            if(proxreserved('e')){ 
-                if(proxreserved('f')){
-                    if(proxreserved('i')){   
-                        if(proxreserved('n')){       
-                            if(proxreserved('e')){
+            if(proxreserved('e', 1)){ 
+                if(proxreserved('f', 2 )){
+                    if(proxreserved('i', 3)){   
+                        if(proxreserved('n', 4)){       
+                            if(proxreserved('e', 5)){
                                 estado = '8';//define
+                                term="";
                                 term += "define";
+                                position += 5;
                                 return true;
 
-                            } else {back(); return false;}
-                        } else {back(); return false;}
+                            } else { return false;}
+                        } else { return false;}
 
-                    } else if (charAtual == 'u'){
-                        if (proxreserved('n')){
+                    } else if (proxreserved('u', 3)){
+                        if (proxreserved('n', 4)){
                             estado = '8';//defun
+                            term="";
                             term += "defun";
+                            position += 4;
                             return true;
 
-                        } else {back(); return false;}
-                    } else {back(); return false;}
-                } else {back(); return false;}
-            } else {back(); return false;}
+                        } else { return false;}
+                    } else { return false;}
+                } else { return false;}
+            } else { return false;}
 
         } else if (charAtual == 'e'){
             
-            if(proxreserved('q')){
+            if(proxreserved('q', 1)){
                 estado = '6';//eq
+                term="";
                 term += "eq";
+                position += 1;
                 return true;
 
-            } else {back(); return false;}
+            } else { return false;}
 
         } else if (charAtual == 'g'){
             
-            if(proxreserved('e')){
-                if(proxreserved('q')){
+            if(proxreserved('e', 1)){
+                if(proxreserved('q', 2)){
                     estado = '6';//geq
+                    term="";
                     term += "geq";
+                    position += 2;
                     return true;
 
-                } else {back(); return false;}
-            } else {back(); return false;}
+                } else { return false;}
+            } else { return false;}
 
         } else if (charAtual == 'i'){
             
-            if(proxreserved('f')){
+            if(proxreserved('f', 1)){
                 estado = '8';//if
+                term="";
                 term += "if";
+                position += 1;
                 return true;
 
-            } else {back(); return false;}
+            } else { return false;}
 
         } else if (charAtual == 'l'){
             
-            if(proxreserved('a')){
-                if(proxreserved('m')){
-                    if(proxreserved('b')){
-                        if(proxreserved('d')){
-                            if(proxreserved('a')){
+            if(proxreserved('a', 1)){
+                if(proxreserved('m', 2)){
+                    if(proxreserved('b', 3)){
+                        if(proxreserved('d', 4)){
+                            if(proxreserved('a', 5)){
                                 estado = '8';//lambda
+                                term="";
                                 term += "lambda";
+                                position += 5;
                                 return true;
 
-                            } else {back(); return false;}
-                        } else {back(); return false;}
-                    } else {back(); return false;}
-                } else {back(); return false;}
+                            } else { return false;}
+                        } else { return false;}
+                    } else { return false;}
+                } else { return false;}
 
-            } else if (charAtual == 'e'){
-                if(proxreserved('t')){
+            } else if (proxreserved('e', 1)){
+                if(proxreserved('t', 2)){
                     estado = '8';//let
+                    term="";
                     term += "let";
+                    position += 2;
                     return true;
 
-                } else if (charAtual == 'q'){
+                } else if (proxreserved('q', 2)){
                     estado = '6';//leq
+                    term="";
                     term += "leq";
+                    position += 2;
                     return true;
 
-                } else {back(); return false;}
+                } else { return false;}
 
-            } else if (charAtual == 'i'){
-                if(proxreserved('s')){
-                    if(proxreserved('t')){
+            } else if (proxreserved('i', 1)){
+                if(proxreserved('s', 2)){
+                    if(proxreserved('t', 3)){
                         estado = '8';//list
+                        term="";
                         term += "list";
+                        position += 3;
                         return true;
 
-                    } else {back(); return false;}
-                } else {back(); return false;}
-            } else {back(); return false;}
+                    } else { return false;}
+                } else { return false;}
+            } else { return false;}
 
 
         } else if (charAtual == 'n'){
             
-            if(proxreserved('e')){
-                if(proxreserved('q')){
+            if(proxreserved('e', 1)){
+                if(proxreserved('q', 2)){
                     estado = '6';//neq
+                    term="";
                     term += "neq";
+                    position += 2;
                     return true;
 
-                } else {back(); return false;}
+                } else { return false;}
 
-            } else if (charAtual == 'i'){
+            } else if (proxreserved('i', 1)){
                 
-                if(proxreserved('l')){
+                if(proxreserved('l', 2)){
                     estado = '8';//nil
+                    term="";
                     term += "nil";
+                    position += 2;
                     return true;
 
-                } else {back(); return false;}
-            } else {back(); return false;}
+                } else { return false;}
+            } else { return false;}
 
         } else if (charAtual == 'T'){
             
             estado = '8';//T
+            term="";
             term += 'T';
             return true;
         }
@@ -368,10 +400,10 @@ public class Leitor{
         return false;
     }
 
-    private boolean proxreserved(char c){
-        charAtual = prox();
-        term += charAtual;
-        return charAtual == c;
+    private boolean proxreserved(char c, int offset){
+
+        //System.out.println(String.format("char: %s | comparator: %s", c, this.texto[(this.position - 1) + offset]));
+        return this.texto[(this.position - 1) + offset] == c;
     }
 
 }
