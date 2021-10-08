@@ -10,7 +10,7 @@ import Exceptions.LexicalException;
 public class Leitor{
     private char[] texto;
     private char estado, charAtual;
-    private int strLen;
+    //private int strLen;
     private int position;
     private String term;
 
@@ -22,7 +22,7 @@ public class Leitor{
             term = "";
 
             conteudo_txt = new String(Files.readAllBytes(Paths.get(filename)),StandardCharsets.UTF_8);
-            this.strLen = conteudo_txt.length();
+            //this.strLen = conteudo_txt.length();
             texto = conteudo_txt.toCharArray();
             System.out.println("----------------------");
             System.out.println(conteudo_txt);

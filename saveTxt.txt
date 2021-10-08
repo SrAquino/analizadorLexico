@@ -5,6 +5,7 @@
 ( car x ) 
 ( cdr y ) 
 
+( defun add ( parametro1 parametro2 ) ( + parametro1 parametro2 ) )  
 ( if ( condicao )  ( retornoverdadeiro )  ( retornofalso ) ) 
 ( eq lista nil )
 ( leq menorigual vazio )

@@ -20,15 +20,14 @@ public class Analisador{
         tk = this.l.get(currentToken);
 
         if(tk.getTipo()==Tokens.TK_Delimit){
-            this.currentToken++;
-            tk = this.l.get(currentToken);
+            proximoToken();
 
             if(tk.getTipo()==Tokens.TK_Op_Ari){
                 F();
             } else if (tk.getTipo()==Tokens.TK_WR){
                 Pr();
             } else {
-                throw new SintaticException("Num é função num é operação, é o que então? "+tk.getType()+" ?");
+                throw new SintaticException("Num é função num é operação, era pra ser o que esse "+tk.getType()+" ?");
             }
 
         } else {
@@ -36,8 +35,6 @@ public class Analisador{
     }
 
     private void F(){
-
-        tk = this.l.get(currentToken);
 
         if(tk.getTipo()==Tokens.TK_Op_Ari){
             OPa();
@@ -51,28 +48,36 @@ public class Analisador{
 
     private void Pr(){
 
-       proximoToken();
-
         if(tk.getTipo()==Tokens.TK_WR){
 
             if (tk.getTexto().compareTo("defun") == 0){      
                 proximoToken();
-            if(tk.getTipo()==Tokens.TK_Id){
-                proximoToken();
-                if(tk.getTipo()==Tokens.TK_Delimit){
+                if(tk.getTipo()==Tokens.TK_Id){//(defun nome
                     proximoToken();
-                if(tk.getTipo()==Tokens.TK_Id){
-                    proximoToken();
-                if(tk.getTipo()==Tokens.TK_Id){
-                    proximoToken();
-                if(tk.getTipo()==Tokens.TK_Delimit){
-                    proximoToken();
-                    if(tk.getTipo()==Tokens.TK_Delimit){
-                        F();
-                    if(tk.getTipo()==Tokens.TK_Delimit){
-
+                        if(tk.getTipo()==Tokens.TK_Delimit){//(defun nome (
+                            proximoToken();
+                                if(tk.getTipo()==Tokens.TK_Id){//(defun nome (1 parametro
+                                    while(true){
+                                        if(tk.getTipo()==Tokens.TK_Id){//(defun nome (mais de um parametro
+                                        proximoToken();
+                                        } else {////(defun nome (sem parametro
+                                            break;
+                                        }
+                                    }
+                                } else if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome ()
+                                    proximoToken();
+                                    } else {
+                                        throw new SintaticException("Esse "+tk.getTexto()+" era pra ser o nome do parâmetro?");
+                                    }                
+                    if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome () (
+                        proximoToken();
+                            F();
+                        if(tk.getTipo()==Tokens.TK_Delimit){} else {
+                            throw new SintaticException("E tua função acaba onde? nesse "+tk.getTexto()+"?");
+                        }
                     }
-                }}}}}
+                }
+            
 
                 } else {
                     throw new SintaticException("E o nome da função é oq? Eu advinho ou deixo esse "+tk.getType());
@@ -89,24 +94,21 @@ public class Analisador{
     }
 
     public void N(){
-  
-        tk = this.l.get(currentToken);
 
         if(tk.getTipo() != Tokens.TK_Id && tk.getTipo() != Tokens.TK_Number){
             throw new SintaticException("Véi, achei que ia vim um Identificador ou Número e brotou um "+tk.getType()+" do nada");
         }
-        this.currentToken++;
+
+        proximoToken();
     }
 
     public void OPa(){
-
-        tk = this.l.get(currentToken);
 
         if(tk.getTipo() != Tokens.TK_Op_Ari){
             throw new SintaticException("Mano, esse "+tk.getType()+" não devia ser um operador não?");
         }
 
-        this.currentToken++;
+        proximoToken();
     }
 
     private void proximoToken(){
