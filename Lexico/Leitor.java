@@ -2,6 +2,7 @@ package Lexico;
 
 import java.nio.charset.*;
 import java.nio.file.*;
+
 import Exceptions.LexicalException;
 //import java.util.LinkedList;
 
@@ -42,9 +43,11 @@ public class Leitor{
             }
 
             charAtual = prox();
-
+            //System.out.println("Estado: "+estado);
+            //System.out.println("Posição: "+position);
             switch (estado) {
-                case 'i':    
+                case 'i':
+                //System.out.println("Char atual: "+charAtual);    
                     if(iscaracter(charAtual)){
                         if(isreservada()){
 
@@ -73,7 +76,7 @@ public class Leitor{
                     } else if (ispecial(charAtual)){
                         estado = 'i';
                     } else {
-                        throw new LexicalException("SIMBOLO NÃO RECONHECIDO");
+                        throw new LexicalException("JAPONÊS EU NÃO SEI! Como que lê: "+charAtual);
                     }
                 break;
 
@@ -88,6 +91,7 @@ public class Leitor{
 
                 case '2':
                     back();
+                    System.out.println("2: "+charAtual);
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Id);
                     t.setTexto(term);
@@ -112,6 +116,7 @@ public class Leitor{
                 return t;
                 
                 case '5':
+                    //back();
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Op_Ari);
                     t.setTexto(term);
@@ -119,6 +124,7 @@ public class Leitor{
                 return t;
 
                 case '6':
+                    //back();
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Op_Rel);
                     t.setTexto(term);
@@ -140,6 +146,7 @@ public class Leitor{
                 return t;
 
                 case '9':
+                    back();
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Delimit);
                     t.setTexto(term);
@@ -188,156 +195,173 @@ public class Leitor{
         //eq, geq, leq, neq
 
         if (charAtual == 'a'){
-            term += charAtual;
+            
             if(proxreserved('t')){
                 if(proxreserved('o')){
                     if(proxreserved('m')){
                         estado = '8';//atom
+                        term += "atom";
                         return true;
 
-                    } else {return false;}
-                } else {return false;}
-            } else {return false;}
+                    } else {back(); return false;}
+                } else {back(); return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'c'){
-            term += charAtual;
+            
             if (proxreserved('a')){
                 if (proxreserved('r')){
                     estado = '8';//car
+                    term += "car";
                     return true;
 
                 } else if (charAtual == 's'){
                     if (proxreserved('e')){
                         estado = '8';//case
+                        term += "case";
                         return true;
 
-                    } else {return false;}
-                } else {return false;}
+                    } else {back(); return false;}
+                } else {back(); return false;}
 
             } else if (charAtual == 'd'){
                 if(proxreserved('r')){
                     estado = '8';//cdr
+                    term += "cdr";
                     return true;
 
-                } else {return false;}
+                } else {back(); return false;}
 
             } else if (charAtual == 'o'){               
                 if(proxreserved('n')){
                     if(proxreserved('d')){
                         estado = '8';//cond
+                        term += "cond";
                         return true;
 
-                        } else {return false;}
-                    }else {return false;}
-            } else {return false;}
+                    } else {back(); return false;}
+                }else {back(); return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'd'){
-            term += charAtual;
+            
             if(proxreserved('e')){ 
                 if(proxreserved('f')){
                     if(proxreserved('i')){   
                         if(proxreserved('n')){       
                             if(proxreserved('e')){
                                 estado = '8';//define
+                                term += "define";
                                 return true;
 
-                            } else {return false;}
-                        } else {return false;}
+                            } else {back(); return false;}
+                        } else {back(); return false;}
 
                     } else if (charAtual == 'u'){
                         if (proxreserved('n')){
                             estado = '8';//defun
+                            term += "defun";
                             return true;
 
-                        } else {return false;}
-                    } else {return false;}
-                } else {return false;}
-            } else {return false;}
+                        } else {back(); return false;}
+                    } else {back(); return false;}
+                } else {back(); return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'e'){
-            term += charAtual;
+            
             if(proxreserved('q')){
                 estado = '6';//eq
+                term += "eq";
                 return true;
 
-            } else {return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'g'){
-            term += charAtual;
+            
             if(proxreserved('e')){
                 if(proxreserved('q')){
                     estado = '6';//geq
+                    term += "geq";
                     return true;
 
-                } else {return false;}
-            } else {return false;}
+                } else {back(); return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'i'){
-            term += charAtual;
+            
             if(proxreserved('f')){
                 estado = '8';//if
+                term += "if";
                 return true;
 
-            } else {return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'l'){
-            term += charAtual;
+            
             if(proxreserved('a')){
                 if(proxreserved('m')){
                     if(proxreserved('b')){
                         if(proxreserved('d')){
                             if(proxreserved('a')){
                                 estado = '8';//lambda
+                                term += "lambda";
                                 return true;
 
-                            } else {return false;}
-                        } else {return false;}
-                    } else {return false;}
-                } else {return false;}
+                            } else {back(); return false;}
+                        } else {back(); return false;}
+                    } else {back(); return false;}
+                } else {back(); return false;}
 
             } else if (charAtual == 'e'){
                 if(proxreserved('t')){
                     estado = '8';//let
+                    term += "let";
                     return true;
 
                 } else if (charAtual == 'q'){
                     estado = '6';//leq
+                    term += "leq";
                     return true;
 
-                } else {return false;}
+                } else {back(); return false;}
 
             } else if (charAtual == 'i'){
                 if(proxreserved('s')){
                     if(proxreserved('t')){
                         estado = '8';//list
+                        term += "list";
                         return true;
 
-                    } else {return false;}
-                } else {return false;}
-            } else {return false;}
+                    } else {back(); return false;}
+                } else {back(); return false;}
+            } else {back(); return false;}
 
 
         } else if (charAtual == 'n'){
-            term += charAtual;
+            
             if(proxreserved('e')){
                 if(proxreserved('q')){
                     estado = '6';//neq
+                    term += "neq";
                     return true;
 
-                } else {return false;}
+                } else {back(); return false;}
 
             } else if (charAtual == 'i'){
-                term += charAtual;
+                
                 if(proxreserved('l')){
                     estado = '8';//nil
+                    term += "nil";
                     return true;
 
-                } else {return false;}
-            } else {return false;}
+                } else {back(); return false;}
+            } else {back(); return false;}
 
         } else if (charAtual == 'T'){
-            term += charAtual;
+            
             estado = '8';//T
+            term += 'T';
             return true;
         }
 
