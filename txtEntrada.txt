@@ -1,1 +1,2 @@
-( defun x ()(+ a a)  )  
+( defun x ( 12 10 ) ( + a b )  ) 
+ 

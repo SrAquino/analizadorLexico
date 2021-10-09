@@ -27,6 +27,7 @@ funções e símbolos descritos acima.
 4. Construir a árvore sintática do programa, apresentado em formato legível.
 
 O trabalho deve ser entregue em um arquivo contendo os seguintes elementos:
+
 1. Um relatório contendo a explicação sobre o trabalho feito,
 as estruturas de dados utilizadas, os procedimentos de teste realizados e o
 referencial bibliográfico consultado.
@@ -37,6 +38,16 @@ referencial bibliográfico consultado.
 
 4. O cronograma do projeto, com todas as atividades e os responsáveis
 por sua execução.
+
+- Inicio dos trabalhos(04/09, 05/09) - estudo do projeto I;
+- Implementação do trabalho(11/09, 12/09) - Implementação do autômato finito determinístico de reconhecimento dos tokens da gramática;
+- Implementação do trabalho(18/09, 19/09) - Inicio da implementação do código do programa;
+- Implementação do trabalho(25/09, 26/09) - Finalização da implementação do projeto, testes e correção de bugs;
+- Implementação do trabalho(02/10, 03/10) - estudo do projeto II
+- Implementação do trabalho(04/10) - Inicio da implementação do código do programa;
+- Implementação do trabalho(05/10, 06/10) - Implementação do código do programa;
+- Implementação do trabalho(07/10) - Finalização da implementação do programa, testes e correção de bugs;
+- Término dos trabalhos: 08/10
 
 ------------------------------------------------------------------------------
 A solução implementada é Top Down

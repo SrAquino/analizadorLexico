@@ -15,17 +15,13 @@ St = id, num, +, -, *, /
 2. N -> id | num
 3. OPa -> + | - | * | / | &
 
-4. Pr -> defun id (id* | &) (F) | (r id (Pr)) | F 
+4. Pr -> ( defun id (id* | &) (F) ) 
+        | (if (C)(F)(F) )
+        | (r id (Pr)) 
+        | F 
 
-------------------------------------------------------------------------------------
-
-4. C -> C OPr N | N
-5. OPr -> > | < | eq | geq | leq | neq
-
-4a. C -> N C'
-4b. C' -> OPr N C' | &
-
-6. 
+6. C -> OPr N N 
+7. OPr -> > | < | eq | geq | leq | neq
 
 
 
