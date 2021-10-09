@@ -1,27 +1,22 @@
 GRAMATICA G
 
 G = (Sn, St, P, S)
-(Simbolos NÃO terminais, Simbolos terminais, )
+(Simbolos NÃO terminais, Simbolos terminais)
 
-Sn = F, N, OP
-(Métodos da classe de Analise sintática)
-
-St = id, num, +, -, *, /
-(Tokens retornados pela classe de Analise léxica)
-
-0. G -> F | Pr
-
-1. F -> (OPa N F) | N
-2. N -> id | num
-3. OPa -> + | - | * | / | &
-
-4. Pr -> ( defun id (id* | &) (F) ) 
-        | (if (C)(F)(F) )
-        | (r id (Pr)) 
-        | F 
-
-6. C -> OPr N N 
-7. OPr -> > | < | eq | geq | leq | neq
+Sn = F, N, OPr, OPa, C, Pr
+(Métodos da classe de Análise sintática)
+St = id, num, +, -, *, /, (Palavras reservadas), <, >, eq, geq, leq, neq.
+(Tokens retornados pela classe de Análise léxica)
+G ➔ F | Pr
+F ➔ (OPa N F) | N
+N ➔ id | num
+OPa ➔ + | - | * | / | ε
+Pr ➔ ( defun id (id* | ε) (F) )
+| (if (C)(F)(F) )
+| (r id (Pr))
+| F )
+C ➔ OPr N N
+OPr ➔ > | < | eq | geq | leq | neq
 
 
 
