@@ -13,25 +13,38 @@ public class Analisador{
     public Analisador(LinkedList<Tokens> l){
         this.l = new LinkedList<Tokens>(l);
         this.currentToken = 0;
+        tk = this.l.get(currentToken);
     }
 
     public void G(){
 
-        tk = this.l.get(currentToken);
-
-        if(tk.getTipo()==Tokens.TK_Delimit){
+        while(l.size() > currentToken+1) {
+        if(tk.getTipo()==Tokens.TK_Delimit && tk.getTexto().compareTo("(")==0){//Abre parenteses no início
             proximoToken();
 
             if(tk.getTipo()==Tokens.TK_Op_Ari){
+                System.out.println("G -> É um operador aritimético: "+tk);
                 F();
             } else if (tk.getTipo()==Tokens.TK_WR){
+                System.out.println("G -> É uma palavra reservada: "+tk);
                 Pr();
             } else {
                 throw new SintaticException("Num é função num é operação, era pra ser o que esse "+tk.getType()+" ?");
             }
 
         } else {
-            throw new SintaticException("PA RÊN TE SE, CADÊ ??? Só to vendo um "+tk.getType());}
+            throw new SintaticException("PA RÊN TE SE abrindo, CADÊ ??? Só to vendo um "+tk.getTexto());
+        }
+
+        proximoToken();
+
+        if(tk.getTipo()==Tokens.TK_Delimit){// Fecha parenteses no final
+            proximoToken();
+        } else {
+            throw new SintaticException("O programa termina nesse "+tk.getTexto()+" ?");
+        }
+    
+        }
     }
 
     private void F(){
@@ -56,19 +69,21 @@ public class Analisador{
                     proximoToken();
                         if(tk.getTipo()==Tokens.TK_Delimit){//(defun nome (
                             proximoToken();
-                                if(tk.getTipo()==Tokens.TK_Id){//(defun nome (1 parametro
+                                if(tk.getTipo()==Tokens.TK_Id || tk.getTipo()==Tokens.TK_Number ){//(defun nome (1 parametro
                                     while(true){
-                                        if(tk.getTipo()==Tokens.TK_Id){//(defun nome (mais de um parametro
+                                        if(tk.getTipo()==Tokens.TK_Id || tk.getTipo()==Tokens.TK_Number){//(defun nome (mais de um parametro
                                         proximoToken();
                                         } else {////(defun nome (sem parametro
                                             break;
                                         }
                                     }
-                                } else if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome ()
+                                } 
+                                
+                                if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome ()
                                     proximoToken();
-                                    } else {
-                                        throw new SintaticException("Esse "+tk.getTexto()+" era pra ser o nome do parâmetro?");
-                                    }                
+                                } else {
+                                    throw new SintaticException("Esse "+tk.getTexto()+" era pra ser o nome do parâmetro?");
+                                }                
                     if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome () (
                         proximoToken();
                             F();
@@ -82,7 +97,7 @@ public class Analisador{
                 } else {
                     throw new SintaticException("E o nome da função é oq? Eu advinho ou deixo esse "+tk.getType());
                 }
-            } else
+            }/*^Caso seja defun*/ else
 
             if(tk.getTipo()==Tokens.TK_Id){
                 this.currentToken++;
@@ -90,7 +105,7 @@ public class Analisador{
             } else { 
                 throw new SintaticException("");
             }
-        }
+        }//^Caso seja uma palavra reservada
     }
 
     public void N(){
@@ -112,8 +127,11 @@ public class Analisador{
     }
 
     private void proximoToken(){
-        this.currentToken++;
-        tk = this.l.get(currentToken);
+        if(l.size() > currentToken+1){
+            this.currentToken++;
+            tk = this.l.get(currentToken);
+            System.out.println(currentToken+" :: "+tk);
+        }
     }
 
 }
