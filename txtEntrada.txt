@@ -1,2 +1,5 @@
+( if ( > x 7 ) ( x ) ( x ) )  
 ( defun x ( 12 10 ) ( + a b )  ) 
 ( defun a ( 12 10 ) ( + a b )  )  
+( atom  x ( - a z ) )  
+if  

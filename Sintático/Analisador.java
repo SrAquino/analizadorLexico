@@ -19,30 +19,20 @@ public class Analisador{
     public void G(){
 
         while(l.size() > currentToken+1) {
-        if(tk.getTipo()==Tokens.TK_Delimit && tk.getTexto().compareTo("(")==0){//Abre parenteses no início
-            proximoToken();
+        
+            Delimitador("(");//Abre parenteses no início
 
             if(tk.getTipo()==Tokens.TK_Op_Ari){
-                System.out.println("G -> É um operador aritimético: "+tk);
+                //System.out.println("G -> É um operador aritimético: "+tk);
                 F();
             } else if (tk.getTipo()==Tokens.TK_WR){
-                System.out.println("G -> É uma palavra reservada: "+tk);
+                //System.out.println("G -> É uma palavra reservada: "+tk);
                 Pr();
             } else {
                 throw new SintaticException("Num é função num é operação, era pra ser o que esse "+tk.getType()+" ?");
             }
 
-        } else {
-            throw new SintaticException("PA RÊN TE SE abrindo, CADÊ ??? Só to vendo um "+tk.getTexto());
-        }
-
-        proximoToken();
-
-        if(tk.getTipo()==Tokens.TK_Delimit){// Fecha parenteses no final
-            proximoToken();
-        } else {
-            throw new SintaticException("O programa termina nesse "+tk.getTexto()+" ?");
-        }
+        Delimitador(")");
     
         }
     }
@@ -67,44 +57,56 @@ public class Analisador{
                 proximoToken();
                 if(tk.getTipo()==Tokens.TK_Id){//(defun nome
                     proximoToken();
-                        if(tk.getTipo()==Tokens.TK_Delimit){//(defun nome (
-                            proximoToken();
-                                if(tk.getTipo()==Tokens.TK_Id || tk.getTipo()==Tokens.TK_Number ){//(defun nome (1 parametro
-                                    while(true){
-                                        if(tk.getTipo()==Tokens.TK_Id || tk.getTipo()==Tokens.TK_Number){//(defun nome (mais de um parametro
-                                        proximoToken();
-                                        } else {////(defun nome (sem parametro
-                                            break;
-                                        }
-                                    }
-                                } 
-                                
-                                if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome ()
-                                    proximoToken();
-                                } else {
-                                    throw new SintaticException("Esse "+tk.getTexto()+" era pra ser o nome do parâmetro?");
-                                }                
-                    if(tk.getTipo()==Tokens.TK_Delimit){////(defun nome () (
+                    Delimitador("(");
+                    if (tk.getTipo()==Tokens.TK_Delimit && tk.getTexto().compareTo(")")==0){
                         proximoToken();
-                            F();
-                        if(tk.getTipo()==Tokens.TK_Delimit){} else {
-                            throw new SintaticException("E tua função acaba onde? nesse "+tk.getTexto()+"?");
-                        }
+                    } else {
+                        N();//(defun nome (1 parametro
+                        do {
+                            if(!(tk.getTipo()==Tokens.TK_Delimit)){//(defun nome (mais de um parametro
+                                N();
+                            } else {
+                                break;
+                            }
+                        } while(true);
+                    } Delimitador(")");//(defun nome (parametros)
+                    
+                }
+                Delimitador("(");
+                F();
+                Delimitador(")");
+       
+            }/*^Caso seja defun*/ else {
+                if (tk.getTexto().compareTo("if") == 0){
+                    proximoToken();
+                    Delimitador("(");//(if (
+                    OPr();//(if (condição
+                    N();
+                    N();
+                    Delimitador(")");
+
+                    Delimitador("(");
+                    F();//Caso verdadeiro 
+                    Delimitador(")");
+
+                    Delimitador("(");
+                    F();//Caso falso  
+                    Delimitador(")");                 
+        
+                } /*Caso seja if ^*/else {
+                    proximoToken();
+                
+                    if(tk.getTipo()==Tokens.TK_Id){
+                        proximoToken();
+                        G();
+                    } else { 
+                        throw new SintaticException("Eu acho que uma função não pode ser chamada assim");
                     }
-                }
-            
 
-                } else {
-                    throw new SintaticException("E o nome da função é oq? Eu advinho ou deixo esse "+tk.getType());
                 }
-            }/*^Caso seja defun*/ else
-
-            if(tk.getTipo()==Tokens.TK_Id){
-                this.currentToken++;
-                G();
-            } else { 
-                throw new SintaticException("");
             }
+
+            
         }//^Caso seja uma palavra reservada
     }
 
@@ -126,11 +128,30 @@ public class Analisador{
         proximoToken();
     }
 
+    public void OPr(){
+
+        if(tk.getTipo() != Tokens.TK_Op_Rel){
+            throw new SintaticException("Mano, esse "+tk.getType()+" não devia ser um operador não?");
+        }
+
+        proximoToken();
+    }
+
+    public void Delimitador(String tipo/*Aberto ou Fechado*/){
+        
+        if(tk.getTipo() != Tokens.TK_Delimit || tk.getTexto().compareTo(tipo)==0){
+            throw new SintaticException("Faltando o parenteses de novo...");
+        }
+
+        proximoToken();
+
+    }
+    
     private void proximoToken(){
         if(l.size() > currentToken+1){
             this.currentToken++;
             tk = this.l.get(currentToken);
-            System.out.println(currentToken+" :: "+tk);
+            //System.out.println(currentToken+" :: "+tk);
         }
     }
 

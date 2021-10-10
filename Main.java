@@ -17,11 +17,10 @@ public class Main{
             TK = l.proxToken();
             if(TK != null){
                 tokenList.add(TK);
-                System.out.println(TK);
+                //System.out.println(TK);
             }
         }while(TK != null);
 
-        l = new Leitor("../txtEntrada.txt");
         Analisador a = new Analisador(tokenList);
         a.G();
 
@@ -31,8 +30,8 @@ public class Main{
         System.out.println("ERRO LEXICO: "+e.getMessage());
     } catch (SintaticException e){
         System.out.println("ERRO SINTÁTICO: "+e.getMessage());
-    } /*catch (Exception e){
+    } catch (Exception e){
         System.out.println("ERRO! nenhuma solução encontrada");
-    } */
+    } 
 }
 }

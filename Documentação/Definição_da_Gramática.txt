@@ -12,7 +12,7 @@ F ➔ (OPa N F) | N
 N ➔ id | num
 OPa ➔ + | - | * | / | ε
 Pr ➔ ( defun id (id* | ε) (F) )
-| (if (C)(F)(F) )
+| (if (C)(N)(N) )
 | (r id (Pr))
 | F )
 C ➔ OPr N N

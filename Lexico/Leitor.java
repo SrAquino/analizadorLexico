@@ -4,13 +4,10 @@ import java.nio.charset.*;
 import java.nio.file.*;
 
 import Exceptions.LexicalException;
-//import java.util.LinkedList;
-
 
 public class Leitor{
     private char[] texto;
     private char estado, charAtual;
-    //private int strLen;
     private int position;
     private String term;
 
@@ -22,7 +19,6 @@ public class Leitor{
             term = "";
 
             conteudo_txt = new String(Files.readAllBytes(Paths.get(filename)),StandardCharsets.UTF_8);
-            //this.strLen = conteudo_txt.length();
             texto = conteudo_txt.toCharArray();
             System.out.println("----------------------");
             System.out.println(conteudo_txt);
@@ -116,7 +112,6 @@ public class Leitor{
                 return t;
                 
                 case '5':
-                    //back();
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Op_Ari);
                     t.setTexto(term);
@@ -124,7 +119,6 @@ public class Leitor{
                 return t;
 
                 case '6':
-                    //back();
                     t = new Tokens();
                     t.setTipo(Tokens.TK_Op_Rel);
                     t.setTexto(term);
